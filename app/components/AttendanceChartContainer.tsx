@@ -1,6 +1,6 @@
-import Image from "next/image";
 import AttendanceChart from "./AttendanceChart";
 import { AttendanceModel } from "@/models";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
 
 const AttendanceChartContainer = async () => {
   const today = new Date();
@@ -48,10 +48,10 @@ const AttendanceChartContainer = async () => {
   }));
 
   return (
-    <div className="bg-white rounded-lg p-4 h-full">
+    <div className="rounded-lg p-4 h-full border">
       <div className="flex justify-between items-center">
         <h1 className="text-lg font-semibold">Attendance</h1>
-        <Image src="/moreDark.png" alt="" width={20} height={20} />
+         <BiDotsHorizontalRounded />
       </div>
       <AttendanceChart data={data} />
     </div>

@@ -44,7 +44,7 @@ export interface IUser extends Document {
   sex?: UserSex;
   createdAt?: Date;
   parent?: Types.ObjectId;
-  class?: Types.ObjectId;
+  class?: Types.ObjectId | IClass;
   grade?: Types.ObjectId;
   subjects?: Types.ObjectId[];
   students?: Types.ObjectId[]
@@ -71,15 +71,15 @@ export interface ISubject extends Document {
   lessons: Types.ObjectId[];
 }
 export interface ILesson extends Document {
-  name: String;
+  name: string;
   day: Day;
   startTime: Date;
   endTime: Date;
   subjectId: string;
   subject: Types.ObjectId[];
-  classId: String;
+  classId: string;
   class: Types.ObjectId[];
-  teacherId: String;
+  teacherId: string;
   teacher: IUser;
   exams: Types.ObjectId[];
   assignments: Types.ObjectId[];
@@ -169,7 +169,7 @@ const UserSchema = new Schema<IUser>(
     birthday: { type: Date },
     sex: { type: String, enum: Object.values(UserSex) },
     createdAt: { type: Date, default: Date.now },
-    parent: { type: Schema.Types.ObjectId, ref: "Parent" },
+    parent: { type: Schema.Types.ObjectId, ref: "User" },
     class: { type: Schema.Types.ObjectId, ref: "Class" },
     grade: { type: Schema.Types.ObjectId, ref: "Grade" },
     subjects: [{ type: Schema.Types.ObjectId, ref: "Subject" }],
@@ -185,10 +185,10 @@ const ClassSchema = new Schema<IClass>(
   {
     name: { type: String, required: true, unique: true },
     capacity: { type: Number, required: true },
-    formTeacher: { type: Schema.Types.ObjectId, ref: "Teacher" },
+    formTeacher: { type: Schema.Types.ObjectId, ref: "User" },
     grade: { type: Schema.Types.ObjectId, ref: "Grade", required: true },
     lessons: [{ type: Schema.Types.ObjectId, ref: "Lesson" }],
-    students: [{ type: Schema.Types.ObjectId, ref: "Student" }],
+    students: [{ type: Schema.Types.ObjectId, ref: "User" }],
     events: [{ type: Schema.Types.ObjectId, ref: "Event" }],
     announcements: [{ type: Schema.Types.ObjectId, ref: "Announcement" }],
   },
@@ -196,12 +196,12 @@ const ClassSchema = new Schema<IClass>(
 );
 const GradeSchema = new Schema<IGrade>({
   level: { type: String, required: true },
-  students: [{ type: Schema.Types.ObjectId, ref: "Student" }],
+  Users: [{ type: Schema.Types.ObjectId, ref: "User" }],
   classes: [{ type: Schema.Types.ObjectId, ref: "Class" }],
 });
 const SubjectSchema = new Schema<ISubject>({
   name: { type: String, required: true, unique: true },
-  teachers: [{ type: Schema.Types.ObjectId, ref: "Teacher", required: true }],
+  teachers: [{ type: Schema.Types.ObjectId, ref: "User", required: true }],
   lessons: [{ type: Schema.Types.ObjectId, ref: "Lesson" }],
 });
 
@@ -216,7 +216,7 @@ const LessonSchema = new Schema<ILesson>({
   endTime: { type: Date, required: true },
   subject: [{ type: Schema.Types.ObjectId, ref: "Subject", required: true }],
   class: [{ type: Schema.Types.ObjectId, ref: "Class", required: true }],
-  teacher: [{ type: Schema.Types.ObjectId, ref: "Teacher", required: true }],
+  teacher: [{ type: Schema.Types.ObjectId, ref: "User", required: true }],
   exams: [{ type: Schema.Types.ObjectId, ref: "Exam" }],
   assignments: [{ type: Schema.Types.ObjectId, ref: "Assignment" }],
   attendances: [{ type: Schema.Types.ObjectId, ref: "Attendance" }],
@@ -248,20 +248,20 @@ const ResultSchema = new Schema<IResult>({
   score: { type: Number, required: true },
   exam: { type: Schema.Types.ObjectId, ref: "Exam" },
   assignment: { type: Schema.Types.ObjectId, ref: "Assignment" },
-  student: { type: Schema.Types.ObjectId, ref: "Student", required: true },
+  student: { type: Schema.Types.ObjectId, ref: "User", required: true },
   resultData: { type: Schema.Types.ObjectId, ref: "ResultData" },
 });
 
 const ResultDataSchema = new Schema<IResultData>({
   lesson: { type: Schema.Types.ObjectId, ref: "Lesson", required: true },
-  student: { type: Schema.Types.ObjectId, ref: "Student", required: true },
+  student: { type: Schema.Types.ObjectId, ref: "User", required: true },
   assesmentData: { type: Schema.Types.Mixed, default: {} },
   results: [{ type: Schema.Types.ObjectId, ref: "Result" }] as any,
   total: Number,
 });
 
 const StudentSessionDataSchema = new Schema<IStudentSessionData>({
-  student: { type: Schema.Types.ObjectId, ref: "Student", required: true },
+  student: { type: Schema.Types.ObjectId, ref: "User", required: true },
   data: { type: Schema.Types.Mixed, default: {} },
 });
 
@@ -275,7 +275,7 @@ const SessionSchema = new Schema<ISession>({
 const AttendanceSchema = new Schema<IAttendance>({
   date: { type: Date, required: true },
   present: { type: Boolean, required: true },
-  student: { type: Schema.Types.ObjectId, ref: "Student", required: true },
+  student: { type: Schema.Types.ObjectId, ref: "User", required: true },
   lesson: { type: Schema.Types.ObjectId, ref: "Lesson", required: true },
 });
 export const EventSchema = new Schema<IEvent>({
@@ -354,4 +354,4 @@ export default async function dbCon() {
     throw error;
   }
 }
-dbCon();
+await dbCon();

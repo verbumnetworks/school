@@ -9,24 +9,18 @@ const BigCalendarContainer = async ({
   type: "teacherId" | "classId";
   id: string;
 }) => {
-// Build filter based on type
-const filter = type === "teacherId"
-  ? { teacherId: id }
-  : { classId: id };
-const lessons = await LessonModel.find(filter).lean();
-const data = lessons.map((lesson) => ({
-  title: lesson.name as string,
-  start: lesson.startTime,
-  end: lesson.endTime,
-}));
+  const filter = type === "teacherId"
+    ? { teacherId: id }
+    : { classId: id };
+  const lessons = await LessonModel.find(filter).lean();
+  const data = lessons.map((lesson) => ({
+    title: lesson.name as string,
+    start: lesson.startTime,
+    end: lesson.endTime,
+  }));
 
-const schedule = adjustScheduleToCurrentWeek(data);
-
-  return (
-    <div className="">
-      <BigCalendar data={schedule} />
-    </div>
-  );
+  const schedule = adjustScheduleToCurrentWeek(data);
+  return <BigCalendar data={schedule} />
 };
 
 export default BigCalendarContainer;

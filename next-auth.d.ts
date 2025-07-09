@@ -1,4 +1,3 @@
-// types/next-auth.d.ts
 import NextAuth, { DefaultSession, DefaultUser } from "next-auth"
 
 declare module "next-auth" {
@@ -8,7 +7,6 @@ declare module "next-auth" {
       role: string
     } & DefaultSession["user"]
   }
-
   interface User extends DefaultUser {
     id: string
     role: string
@@ -16,7 +14,7 @@ declare module "next-auth" {
 }
 
 declare module "next-auth/jwt" {
-  interface JWT {
+    interface JWT {
     id: string
     role: string
   }

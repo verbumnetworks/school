@@ -1,9 +1,8 @@
 "use client";
-// import Image from "next/image";
 import {
   BarChart,
   Bar,
-  Rectangle,
+  // Rectangle,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -24,10 +23,12 @@ const AttendanceChart = ({
         <XAxis
           dataKey="name"
           axisLine={false}
-          tick={{ fill: "#d1d5db" }}
+          // tick={{ fill: "#d1d5db" }}
           tickLine={false}
         />
-        <YAxis axisLine={false} tick={{ fill: "#d1d5db" }} tickLine={false} />
+        <YAxis axisLine={false} 
+        // tick={{ fill: "#d1d5db" }} 
+        tickLine={false} />
         <Tooltip
           contentStyle={{ borderRadius: "10px", borderColor: "lightgray" }}
         />
@@ -38,13 +39,13 @@ const AttendanceChart = ({
         />
         <Bar
           dataKey="present"
-          fill="#FAE27C"
+          fill="green"
           legendType="circle"
           radius={[10, 10, 0, 0]}
         />
         <Bar
           dataKey="absent"
-          fill="#C3EBFA"
+          fill="red"
           legendType="circle"
           radius={[10, 10, 0, 0]}
         />

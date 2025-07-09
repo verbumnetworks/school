@@ -14,15 +14,19 @@ const StudentPage = async ({
     throw new Error("User data not found or userId is missing.");
   }
   const userId = userData.userId;
+  const classData = await ClassModel.findOne({ students: { $in: [userId] } })
+    .select('name')
+    .populate('students', "firstname surname class")
+    .lean();
 
-  const classData = await ClassModel.find({ "students": userId }) as Array<{ _id: any }>;
+    if(!classData) return  null
   return (
     <div className="p-4 flex gap-4 flex-col xl:flex-row">
       {/* LEFT */}
       <div className="w-full xl:w-2/3">
-        <div className="h-full bg-white p-4 rounded-md">
-          <h1 className="text-xl font-semibold">Schedule (4A)</h1>
-          <BigCalendarContainer type="classId" id={classData[0]._id.toString()} />
+        <div className="h-full p-4 rounded-md">
+          <h1 className="text-xl font-semibold">Schedule ({classData?.name})</h1>
+          <BigCalendarContainer type="classId" id={classData?._id.toString()} />
         </div>
       </div>
       {/* RIGHT */}

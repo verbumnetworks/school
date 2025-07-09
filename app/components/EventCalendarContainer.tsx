@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
 import EventCalendar from "./EventCalendar";
 import EventList from "./EventList";
 
@@ -9,11 +9,11 @@ const EventCalendarContainer = async ({
 }) => {
   const { date } = searchParams;
   return (
-    <div className="bg-white p-4 rounded-md">
+    <div className="p-4 rounded-md border">
       <EventCalendar />
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold my-4">Events</h1>
-        <Image src="/moreDark.png" alt="" width={20} height={20} />
+         <BiDotsHorizontalRounded />
       </div>
       <div className="flex flex-col gap-4">
         <EventList dateParam={date} />

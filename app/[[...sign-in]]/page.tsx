@@ -1,5 +1,4 @@
 "use client";
-
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -16,7 +15,7 @@ const LoginPage = () => {
     username: "",
     password: "",
   });
-  const role = data?.user.role;
+  const role = data?.user?.role;
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -38,31 +37,30 @@ const LoginPage = () => {
     const res = await signIn("credentials", {
       redirect: false,
       ...formData,
-    });
+    });    
     if (res) {
       if (res.ok && res.status === 200) {
         toast.success("You have signed in successfully");
       } else {
-        toast.error("Sign In not success");
+        toast.error("Sign In failed, check your credentials");
       }
     }
-    console.log(res);
     setLoading(false);
   };
   return (
-    <div className="h-screen flex items-center justify-center bg-lamaSkyLight">
+    <div className="h-screen flex items-center justify-center">
       <div>
-        <div className="bg-white p-12 rounded-md shadow-2xl flex flex-col items-center gap-2">
+        <div className="bg-background text-foreground shadow shadow-xl shadow-foreground p-12 rounded-md shadow-2xl flex flex-col items-center gap-2">
           <h1 className="text-xl font-bold flex items-center gap-2">
-            <Image src="/logo.png" alt="" width={24} height={24} />
-            VerbumScholar
+            <Image src="/logo.jpg" alt="logo" className="rounded-full" width={24} height={24} />
+            Verbum
           </h1>
-          <h2 className="text-gray-400">Sign in to your account</h2>
+          <h2 className="text-gray-500">Sign in to your account</h2>
 
           <div className="text-sm text-red-400" />
           <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full">
             <div className="flex flex-col gap-2">
-              <label className="text-xs text-gray-500" htmlFor="username">
+              <label className="text-xs" htmlFor="username">
                 Username
               </label>
               <input
@@ -72,12 +70,13 @@ const LoginPage = () => {
                 onChange={handleChange}
                 value={formData.username}
                 required
+                autoFocus
                 className="p-2 rounded-md ring-1 ring-gray-300"
               />
               <div className="text-xs text-red-400" />
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="password" className="text-xs text-gray-500">
+              <label htmlFor="password" className="text-xs">
                 Password
               </label>
               <input
@@ -94,7 +93,7 @@ const LoginPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-red-500 text-white my-1 rounded-md text-sm p-[10px] disabled:bg-red-200"
+              className="w-full bg-red-500 text-white my-1 rounded-md text-sm p-[10px] disabled:bg-red-300"
             >
               Sign In
             </button>

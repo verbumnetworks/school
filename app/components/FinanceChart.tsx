@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
 import {
   LineChart,
   Line,
@@ -15,7 +15,7 @@ import {
 const data = [
   {
     name: "Jan",
-    income: 4000,
+    income: 7000,
     expense: 2400,
   },
   {
@@ -25,7 +25,7 @@ const data = [
   },
   {
     name: "Mar",
-    income: 2000,
+    income: 1000,
     expense: 9800,
   },
   {
@@ -55,13 +55,13 @@ const data = [
   },
   {
     name: "Sep",
-    income: 3490,
+    income: 8490,
     expense: 4300,
   },
   {
     name: "Oct",
     income: 3490,
-    expense: 4300,
+    expense: 1300,
   },
   {
     name: "Nov",
@@ -77,10 +77,10 @@ const data = [
 
 const FinanceChart = () => {
   return (
-    <div className="bg-white rounded-xl w-full h-full p-4">
+    <div className="rounded-xl border w-full h-full p-4">
       <div className="flex justify-between items-center">
         <h1 className="text-lg font-semibold">Finance</h1>
-        <Image src="/moreDark.png" alt="" width={20} height={20} />
+         <BiDotsHorizontalRounded />
       </div>
       <ResponsiveContainer width="100%" height="90%">
         <LineChart
@@ -98,11 +98,15 @@ const FinanceChart = () => {
           <XAxis
             dataKey="name"
             axisLine={false}
-            tick={{ fill: "#d1d5db" }}
+            // tick={{ fill: "#d1d5db" }}
             tickLine={false}
             tickMargin={10}
           />
-          <YAxis axisLine={false} tick={{ fill: "#d1d5db" }} tickLine={false}  tickMargin={20}/>
+          <YAxis 
+          axisLine={false} 
+          // tick={{ fill: "#d1d5db" }}
+           tickLine={false} 
+            tickMargin={20}/>
           <Tooltip />
           <Legend
             align="center"
@@ -112,10 +116,10 @@ const FinanceChart = () => {
           <Line
             type="monotone"
             dataKey="income"
-            stroke="#C3EBFA"
+            stroke="green"
             strokeWidth={5}
           />
-          <Line type="monotone" dataKey="expense" stroke="#CFCEFF" strokeWidth={5}/>
+          <Line type="monotone" dataKey="expense" stroke="red" strokeWidth={5}/>
         </LineChart>
       </ResponsiveContainer>
     </div>
